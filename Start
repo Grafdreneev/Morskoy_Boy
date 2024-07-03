@@ -1,0 +1,215 @@
+class Names:
+    def __init__(self, first, second):
+        self.first_name = first
+        self.second_name = second
+
+    def get_name_players(self):
+        return print(f"Имя первого игрока - {self.first_name}\n"
+                     f"Имя второго игрока - {self.second_name}")
+
+
+player_1 = "input(Введите имя первого игрока: )"
+player_2 = "input(Введите имя первого игрока: )"
+players = Names(player_1, player_2)
+players.get_name_players()
+
+pole_first_player = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+pole_second_player = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+
+
+class Dot:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+class Ship:
+    global pole_first_player
+    global pole_second_player
+
+    def __init__(self, dlina, tochka_po_y, tochka_po_x, napravleniye, health):
+        self.dlin = dlina
+        self.toch_y = tochka_po_y - 1
+        self.toch_x = tochka_po_x - 1
+        self.napr = napravleniye
+        self.health = health
+
+    def dots(self):
+        dots_ship = []
+        if self.napr == 0:
+            n = self.dlin
+            while n != 0:
+                dots_ship.append([self.toch_y, self.toch_x])
+                n -= 1
+                self.toch_x += 1
+        return dots_ship
+
+    def contour(self):
+        if self.toch_y == 0 and self.napr == 0:
+            if self.toch_x == 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+            elif self.toch_x + self.dlin <= 5 and self.toch_x != 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            elif self.toch_x + self.dlin > 5:
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            n = self.dlin
+            t = self.toch_x
+            while n != 0:
+                pole_first_player[self.toch_y + 1][t] = 2
+                n -= 1
+                t += 1
+        if self.toch_y == 5 and self.napr == 0:
+            if self.toch_x == 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+            elif self.toch_x + self.dlin <= 5 and self.toch_x != 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            elif self.toch_x + self.dlin > 5:
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            n = self.dlin
+            t = self.toch_x
+            while n != 0:
+                pole_first_player[self.toch_y - 1][t] = 2
+                n -= 1
+                t += 1
+        if self.toch_x == 0 and self.napr == 1:
+            if self.toch_y == 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+            elif self.toch_y + self.dlin <= 5 and self.toch_y != 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            elif self.toch_y + self.dlin > 5:
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            n = self.dlin
+            t = self.toch_y
+            while n != 0:
+                pole_first_player[t][self.toch_x + 1] = 2
+                n -= 1
+                t += 1
+        if self.toch_x == 5 and self.napr == 1:
+            if self.toch_y == 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+            elif self.toch_y + self.dlin <= 5 and self.toch_y != 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            elif self.toch_y + self.dlin > 5:
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            n = self.dlin
+            t = self.toch_y
+            while n != 0:
+                pole_first_player[t][self.toch_x - 1] = 2
+                n -= 1
+                t += 1
+        if self.toch_y >= 1 and self.toch_y <= 4 and self.napr == 0:
+            if self.toch_x == 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+            elif self.toch_x + self.dlin <= 5 and self.toch_x != 0:
+                pole_first_player[self.toch_y][self.toch_x + self.dlin] = 2
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            elif self.toch_x + self.dlin > 5:
+                pole_first_player[self.toch_y][self.toch_x - 1] = 2
+            n = self.dlin
+            t = self.toch_x
+            while n != 0:
+                pole_first_player[self.toch_y + 1][t] = 2
+                pole_first_player[self.toch_y - 1][t] = 2
+                n -= 1
+                t += 1
+        if self.toch_x >= 1 and self.toch_x <= 4 and self.napr == 1:
+            if self.toch_y == 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+            elif self.toch_y + self.dlin <= 5 and self.toch_y != 0:
+                pole_first_player[self.toch_y + self.dlin][self.toch_x] = 2
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            elif self.toch_y + self.dlin > 5:
+                pole_first_player[self.toch_y - 1][self.toch_x] = 2
+            n = self.dlin
+            t = self.toch_y
+            while n != 0:
+                pole_first_player[t][self.toch_x - 1] = 2
+                pole_first_player[t][self.toch_x + 1] = 2
+                n -= 1
+                t += 1
+
+
+class Board():
+    global pole_first_player
+    global pole_second_player
+
+    def add_ship(self):
+
+        if pole_first_player[self.toch_y][self.toch_x] == 0:
+            pole_first_player[self.toch_y][self.toch_x] = 1
+            if self.napr == 0:
+                n = 1
+                dlin = self.dlin
+                while dlin != 1:
+                    pole_first_player[self.toch_y][self.toch_x + n] = 1
+                    dlin -= 1
+                    n += 1
+
+            elif self.napr == 1:
+                n = 1
+                dlin = self.dlin
+                while dlin != 1:
+                    pole_first_player[self.toch_y + n][self.toch_x] = 1
+                    dlin -= 1
+                    n += 1
+
+
+class Game(Ship, Board):
+    def get_ship(self):
+        return print("привет, я последняя функция!")
+
+
+
+
+ship_1 = Game(3, 1, 1, 0, 3)
+ship_2 = Game(2, 2, 1, 0, 2)
+ship_3 = Game(2, 3, 1, 0, 2)
+ship_4 = Game(1, 4, 1, 0, 1)
+ship_5 = Game(1, 5, 1, 0, 1)
+ship_6 = Game(1, 6, 1, 0, 1)
+ship_7 = Game(1, 6, 3, 0, 1)
+
+print("Поле до выставление корабля")
+for i in range(len(pole_first_player)):
+    for j in range(len(pole_first_player[i])):
+        print(pole_first_player[i][j], end=' ')
+    print()
+
+
+
+ship_1.add_ship()
+ship_1.contour()
+
+
+
+
+print("Координаты первого корабля")
+print(ship_1.dots())
+print("Координаты второго корабля")
+print(ship_2.dots())
+print("Координаты третьего корабля")
+print(ship_3.dots())
+print("Координаты 4 корабля")
+print(ship_4.dots())
+print("Координаты 5 корабля")
+print(ship_5.dots())
+print("Координаты 6 корабля")
+print(ship_6.dots())
+print("Координаты 7 корабля")
+print(ship_7.dots())
+
+print("Выставляем корабль")
+
+print("Поле после выставление корабля")
+for i in range(len(pole_first_player)):
+    for j in range(len(pole_first_player[i])):
+        print(pole_first_player[i][j], end=' ')
+    print()
